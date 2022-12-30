@@ -1,4 +1,8 @@
 import customtkinter as cti
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 class App(cti.CTk):
@@ -9,15 +13,23 @@ class App(cti.CTk):
         self.title("Flight data viewer 0.1")
         self.minsize(600, 200)
 
-        # create 2x2 grid system
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure((1, 2, 3), weight=0)
         self.grid_columnconfigure((0, 4), weight=1)
 
+        x = np.linspace(0.0, 5.0, 501)
 
+        fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
+        ax1.plot(x, np.cos(6*x) * np.exp(-x))
+        ax1.set_ylabel('acceleration')
 
-        self.graph = cti.CTkFrame(master=self)
-        self.graph.grid(row=0, column=0, columnspan=5, padx=20, pady=(20, 0), sticky="nsew")
+        ax2.plot(x, np.cos(6*x))
+        ax2.set_ylabel('rotation')
+        ax2.set_xlabel('time (s)')
+
+        self.chart = FigureCanvasTkAgg(fig, master=self)
+        self.chart.get_tk_widget().grid(row=0, column=0, columnspan=5, padx=20, pady=(20, 0), sticky="nsew")
+
         self.frame = cti.CTkLabel(master=self)
         self.frame.grid(row=1, column=0, columnspan=5, padx=20, pady=(20, 0), sticky="nsew")
 
@@ -29,7 +41,8 @@ class App(cti.CTk):
         self.buttonRecord.grid(row=2, column=3, padx=20, pady=20, sticky="ew")
 
     def button_callback(self):
-        pass
+        self.bar1.plot(2,2)
+        self.bar1.draw()
 
 
 if __name__ == "__main__":
