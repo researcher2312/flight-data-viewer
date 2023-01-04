@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+import bluetooth_receiver as bt
 
 class App(cti.CTk):
     def __init__(self):
@@ -31,8 +32,8 @@ class App(cti.CTk):
         self.chart = FigureCanvasTkAgg(fig, master=self)
         self.chart.get_tk_widget().grid(row=0, column=0, columnspan=6, padx=20, pady=(20, 0), sticky="nsew")
 
-        self.frame = cti.CTkLabel(master=self)
-        self.frame.grid(row=1, column=0, columnspan=6, padx=20, pady=(20, 0), sticky="nsew")
+        self.label = cti.CTkLabel(master=self)
+        self.label.grid(row=1, column=0, columnspan=6, padx=20, pady=(20, 0), sticky="nsew")
 
         self.combobox = cti.CTkOptionMenu(master=self, command=self.option_menu_callback, values=['no devices'])
         self.combobox.grid(row=2, column=1, padx=10, pady=20, sticky="ew")
@@ -46,11 +47,16 @@ class App(cti.CTk):
         self.buttonRecord = cti.CTkButton(master=self, command=self.record_button_callback, text="Record")
         self.buttonRecord.grid(row=2, column=4, padx=10, pady=20, sticky="ew")
 
+        self.bluetooth_receiver = bt.BluetoothReceiver()
+
     def option_menu_callback(self, choice):
         print(choice)
 
     def search_button_callback(self):
-        self.combobox.configure(values=['1', '2'])
+        connection_result = self.bluetooth_receiver.discover_devices()
+        self.label.configure(text=connection_result)
+        print(connection_result)
+        self.combobox.configure(values=self.bluetooth_receiver.available_devices)
 
     def connect_button_callback(self):
         pass
