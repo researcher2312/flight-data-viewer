@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-import bluetooth_receiver as bt
+from graph_drawer import TKGraph
+from network_receiver import NetworkReceiver
 
 
 class App(cti.CTk):
@@ -60,16 +61,16 @@ class App(cti.CTk):
         )
         self.buttonRecord.grid(row=2, column=4, padx=10, pady=20, sticky="ew")
 
-        self.bluetooth_receiver = bt.BluetoothReceiver()
+        self.network_receiver = NetworkReceiver()
 
     def option_menu_callback(self, choice):
         print(choice)
 
     def search_button_callback(self):
-        connection_result = self.bluetooth_receiver.discover_devices()
+        connection_result = self.network_receiver.discover_devices()
         self.label.configure(text=connection_result)
         print(connection_result)
-        self.combobox.configure(values=self.bluetooth_receiver.available_devices)
+        self.combobox.configure(values=self.network_receiver.available_devices)
 
     def connect_button_callback(self):
         pass

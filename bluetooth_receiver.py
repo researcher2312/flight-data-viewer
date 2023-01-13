@@ -1,3 +1,4 @@
+#Currently bluetooth connectivity is not being developed
 import bluetooth
 
 
