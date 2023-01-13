@@ -1,8 +1,4 @@
 import customtkinter as cti
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from graph_drawer import TKGraph
 from network_receiver import NetworkReceiver
@@ -21,17 +17,7 @@ class App(cti.CTk):
         self.grid_columnconfigure((1, 2, 3, 4), weight=0)
         self.grid_columnconfigure((0, 5), weight=1)
 
-        x = np.linspace(0.0, 5.0, 501)
-
-        fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
-        ax1.plot(x, np.cos(6 * x) * np.exp(-x))
-        ax1.set_ylabel("acceleration")
-
-        ax2.plot(x, np.cos(6 * x))
-        ax2.set_ylabel("rotation")
-        ax2.set_xlabel("time (s)")
-
-        self.chart = FigureCanvasTkAgg(fig, master=self)
+        self.chart =  TKGraph(master=self)
         self.chart.get_tk_widget().grid(
             row=0, column=0, columnspan=6, padx=20, pady=(20, 0), sticky="nsew"
         )
