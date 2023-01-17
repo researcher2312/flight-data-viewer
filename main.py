@@ -17,7 +17,7 @@ class App(cti.CTk):
         self.grid_columnconfigure((1, 2, 3, 4), weight=0)
         self.grid_columnconfigure((0, 5), weight=1)
 
-        self.chart =  TKGraph(master=self)
+        self.chart = TKGraph(master=self)
         self.chart.get_tk_widget().grid(
             row=0, column=0, columnspan=6, padx=20, pady=(20, 0), sticky="nsew"
         )
