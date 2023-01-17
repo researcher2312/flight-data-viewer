@@ -42,12 +42,14 @@ class App(cti.CTk):
         )
         self.buttonConnect.grid(row=2, column=3, padx=10, pady=20, sticky="ew")
 
-        self.buttonRecord = cti.CTkButton(
+        self.button_record = cti.CTkButton(
             master=self, command=self.record_button_callback, text="Record"
         )
-        self.buttonRecord.grid(row=2, column=4, padx=10, pady=20, sticky="ew")
+        self.button_record.grid(row=2, column=4, padx=10, pady=20, sticky="ew")
 
         self.network_receiver = NetworkReceiver()
+
+        self.recording = False
 
     def option_menu_callback(self, choice):
         print(choice)
@@ -62,7 +64,20 @@ class App(cti.CTk):
         pass
 
     def record_button_callback(self):
-        pass
+        if not self.recording:
+            self.button_record.configure(text="Recording")
+            self.recording = True
+            self.chart.start_recording()
+            self.update()
+        else:
+            self.recording = False
+            self.chart.stop_recording()
+            self.button_record.configure(text="Record")
+
+    def update(self):
+        if self.recording:
+            print("henlo")
+            self.after(1000, self.update)
 
     def close_application(self):
         self.destroy()
