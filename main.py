@@ -7,7 +7,6 @@ from network_receiver import NetworkReceiver
 class App(cti.CTk):
     def __init__(self):
         super().__init__()
-
         self.geometry("800x400")
         self.title("Flight data viewer 0.1")
         self.minsize(600, 200)
@@ -48,8 +47,7 @@ class App(cti.CTk):
         self.button_record.grid(row=2, column=4, padx=10, pady=20, sticky="ew")
 
         self.network_receiver = NetworkReceiver()
-
-        self.recording = False
+        self.chart.stop_animation()
 
     def option_menu_callback(self, choice):
         print(choice)
@@ -64,18 +62,16 @@ class App(cti.CTk):
         pass
 
     def record_button_callback(self):
-        if not self.recording:
+        if not self.chart.recording:
             self.button_record.configure(text="Recording")
-            self.recording = True
             self.chart.start_recording()
             self.update()
         else:
-            self.recording = False
             self.chart.stop_recording()
             self.button_record.configure(text="Record")
 
     def update(self):
-        if self.recording:
+        if self.chart.recording:
             print("henlo")
             self.after(1000, self.update)
 
