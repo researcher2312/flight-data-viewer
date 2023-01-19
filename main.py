@@ -1,4 +1,5 @@
 import customtkinter as cti
+import random
 
 from graph_drawer import TKGraph
 from network_receiver import NetworkReceiver
@@ -46,8 +47,10 @@ class App(cti.CTk):
         )
         self.button_record.grid(row=2, column=4, padx=10, pady=20, sticky="ew")
 
-        self.network_receiver = NetworkReceiver()
-        self.chart.stop_animation()
+        self.network_receiver = NetworkReceiver(data_store=self.chart.data_queue)
+        # self.chart.animation.pause()
+
+        self.create_mock_measurements()
 
     def option_menu_callback(self, choice):
         print(choice)
@@ -78,6 +81,11 @@ class App(cti.CTk):
     def close_application(self):
         self.destroy()
         quit()
+
+    def create_mock_measurements(self):
+        random_time = random.randrange(20, 200)
+        self.network_receiver.create_mock_data(random_time)
+        self.after(random_time, self.create_mock_measurements)
 
 
 if __name__ == "__main__":
