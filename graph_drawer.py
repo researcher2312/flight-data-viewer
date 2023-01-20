@@ -64,12 +64,23 @@ class TKGraph(FigureCanvasTkAgg):
         lines_rotation = self.ax2.get_lines()
 
         if len(self.sensor_data.index):
+            time_difference = self.sensor_data.iloc[-1, 0] - 20
             for j in range(3):
                 lines_acceleration[j].set_data(
-                    self.sensor_data.iloc[:, 0], self.sensor_data.iloc[:, j + 1]
+                    self.sensor_data.loc[
+                        (self.sensor_data["time"] > time_difference)
+                    ].iloc[:, 0],
+                    self.sensor_data.loc[
+                        (self.sensor_data["time"] > time_difference)
+                    ].iloc[:, j + 1],
                 )
                 lines_rotation[j].set_data(
-                    self.sensor_data.iloc[:, 0], self.sensor_data.iloc[:, j + 4]
+                    self.sensor_data.loc[
+                        (self.sensor_data["time"] > time_difference)
+                    ].iloc[:, 0],
+                    self.sensor_data.loc[
+                        (self.sensor_data["time"] > time_difference)
+                    ].iloc[:, j + 4],
                 )
 
         # self.fig.gca().relim()
