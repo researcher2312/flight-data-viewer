@@ -64,7 +64,10 @@ class TKGraph(FigureCanvasTkAgg):
         lines_rotation = self.ax2.get_lines()
 
         if len(self.sensor_data.index):
-            time_difference = self.sensor_data.iloc[-1, 0] - 20
+            max_measured_time = self.sensor_data.iloc[-1, 0]
+            time_difference = max_measured_time - 20
+            if time_difference > 0:
+                self.ax1.set_xlim((time_difference, max_measured_time))
             for j in range(3):
                 lines_acceleration[j].set_data(
                     self.sensor_data.loc[
